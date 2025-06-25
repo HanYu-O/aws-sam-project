@@ -1,0 +1,7 @@
+nextjs-web/.next
+nextjs-web/node_modules
+nextjs-web/.env
+
+nestjs-learn/dist
+nestjs-learn/node_modules
+nestjs-learn/.env

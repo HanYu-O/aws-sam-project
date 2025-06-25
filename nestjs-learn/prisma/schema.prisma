@@ -1,0 +1,50 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../node_modules/@prisma/custom-client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// 示例模型 - 博客相关
+model Post {
+  id        String   @id @default(cuid())
+  title     String
+  slug      String   @unique
+  content   String?
+  excerpt   String?
+  published Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  author    String?
+  tags      String[] @default([])
+
+  @@map("posts")
+}
+
+
+// 定义交易类型枚举
+enum TransactionType {
+  ZERO     @map("1")
+  CONTRACT @map("2") 
+  EVENT    @map("3")
+}
+
+model Transaction {
+  id          String          @id @default(uuid())
+  type        TransactionType
+  txhash      String          @unique @map("tx_hash")
+  fromaddress String          @map("from_address")
+  toaddress   String          @map("to_address")
+  createdAt   DateTime        @default(now()) @map("created_at")
+  
+  @@map("transactions")
+}
