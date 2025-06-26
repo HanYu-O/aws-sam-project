@@ -56,3 +56,55 @@ pids
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
 /generated/prisma
+.cursorignore
+
+# SAM local environment files
+env.json
+.aws-sam
+dist-slim
+
+# === AWS SAM 相关文件 ===
+# Lambda Layer构建文件
+layer/
+layer.zip
+*.zip
+
+# SAM部署配置（如果包含敏感信息）
+# samconfig.toml  # 取消注释如果包含密码等敏感信息
+
+# AWS凭证和配置
+.aws/credentials
+.aws/config
+
+# === 构建和部署产物 ===
+# 部署包
+*.tar.gz
+deployment-*.zip
+
+# CloudFormation模板生成文件
+packaged-template.yaml
+.aws-sam/
+
+# === 开发和测试文件 ===
+# 测试覆盖率
+.nyc_output/
+coverage/
+*.lcov
+
+# 临时文件
+*.tmp
+*.temp
+response.json
+
+# === pnpm 相关 ===
+.pnpm-store/
+.pnpm-debug.log
+
+# === Prisma 相关 ===
+# 生成的Prisma客户端
+prisma/generated/
+
+# === 其他项目特定文件 ===
+# 脚本执行日志
+scripts/*.log
+build.log

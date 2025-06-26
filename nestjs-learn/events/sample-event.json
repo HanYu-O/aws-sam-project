@@ -1,0 +1,43 @@
+{
+  "httpMethod": "GET",
+  "path": "/",
+  "resource": "/",
+  "requestContext": {
+    "resourcePath": "/",
+    "httpMethod": "GET",
+    "requestId": "c6af9ac6-7b61-11e6-9a41-93e8deadbeef",
+    "accountId": "123456789012",
+    "resourceId": "123456",
+    "stage": "dev",
+    "identity": {
+      "accessKey": null,
+      "accountId": null,
+      "apiKey": null,
+      "apiKeyId": null,
+      "caller": null,
+      "cognitoAuthenticationProvider": null,
+      "cognitoAuthenticationType": null,
+      "cognitoIdentityId": null,
+      "cognitoIdentityPoolId": null,
+      "principalOrgId": null,
+      "sourceIp": "127.0.0.1",
+      "user": null,
+      "userAgent": "Custom User Agent String",
+      "userArn": null
+    },
+    "apiId": "1234567890",
+    "protocol": "HTTP/1.1",
+    "requestTime": "09/Apr/2015:12:34:56 +0000",
+    "requestTimeEpoch": 1428582896000
+  },
+  "queryStringParameters": null,
+  "headers": {
+    "accept": "*/*",
+    "Host": "localhost:3001",
+    "User-Agent": "curl/7.64.1"
+  },
+  "pathParameters": null,
+  "stageVariables": null,
+  "body": null,
+  "isBase64Encoded": false
+} 
