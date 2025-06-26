@@ -14,6 +14,12 @@ export default function Home() {
           >
             查看博客列表
           </Link>
+          <Link
+            href="/github"
+            className="inline-block px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors ml-4"
+          >
+            GitHub 仓库列表
+          </Link>
         </div>
       </main>
     </div>
