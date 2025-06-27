@@ -5,6 +5,7 @@ nextjs-web/.env
 nestjs-learn/dist
 nestjs-learn/node_modules
 nestjs-learn/.env
+nestjs-learn/env.json
 .DS_Store
 nestjs-learn/.samignore
 nestjs-learn/SAM学习笔记.md
