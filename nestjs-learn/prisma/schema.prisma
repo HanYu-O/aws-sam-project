@@ -30,22 +30,3 @@ model Post {
 
   @@map("posts")
 }
-
-
-// 定义交易类型枚举
-enum TransactionType {
-  ZERO     @map("1")
-  CONTRACT @map("2") 
-  EVENT    @map("3")
-}
-
-model Transaction {
-  id          String          @id @default(uuid())
-  type        TransactionType
-  txhash      String          @unique @map("tx_hash")
-  fromaddress String          @map("from_address")
-  toaddress   String          @map("to_address")
-  createdAt   DateTime        @default(now()) @map("created_at")
-  
-  @@map("transactions")
-}

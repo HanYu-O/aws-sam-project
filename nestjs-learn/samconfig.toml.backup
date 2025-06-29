@@ -1,0 +1,31 @@
+# SAM配置文件
+version = 0.1
+
+[default.global.parameters]
+stack_name = "nestjs-learn"
+
+[default.build.parameters]
+cached = true
+parallel = true
+
+[default.deploy.parameters]
+capabilities = "CAPABILITY_IAM"
+confirm_changeset = true
+resolve_s3 = true
+region = "us-east-1"
+
+# 开发环境
+[dev.deploy.parameters]
+parameter_overrides = [
+    "Stage=dev",
+    "DatabaseUrl=postgresql://user:password@localhost:5432/nestjs_learn_dev",
+    "Port=3001"
+]
+
+# 生产环境
+[prod.deploy.parameters]
+parameter_overrides = [
+    "Stage=prod", 
+    "DatabaseUrl=postgresql://username:password@your-aurora-cluster.cluster-xxx.region.rds.amazonaws.com:5432/nestjs_learn",
+    "Port=3000"
+] 

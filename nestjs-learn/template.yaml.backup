@@ -1,0 +1,104 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  nestjs-learn
+
+  NestJS application deployed to AWS Lambda
+
+# 全局配置
+Globals:
+  Function:
+    Timeout: 30
+    MemorySize: 1024
+    Runtime: nodejs22.x
+    Architectures:
+      - arm64
+    Environment:
+      Variables:
+        NODE_ENV: production
+
+Parameters:
+  Stage:
+    Type: String
+    Default: dev
+    Description: Deployment stage
+
+  DatabaseUrl:
+    Type: String
+    Description: PostgreSQL database connection URL
+    NoEcho: true
+    Default: 'postgresql://user:password@localhost:5432/nestjs_learn'
+
+  Port:
+    Type: Number
+    Default: 3001
+    Description: Application port number
+
+Resources:
+  # Lambda Layer - 包含所有依赖
+  NodeJSDependenciesLayer:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      LayerName: !Sub 'nestjs-dependencies-${Stage}'
+      Description: 'NestJS application dependencies layer'
+      ContentUri: layer.zip
+      CompatibleRuntimes:
+        - nodejs22.x
+      CompatibleArchitectures:
+        - arm64
+    Metadata:
+      BuildMethod: nodejs22.x
+
+  # Lambda 函数
+  NestJSFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub 'nestjs-learn-${Stage}'
+      CodeUri: dist-slim/ # 精简的代码包，不包含node_modules
+      Handler: lambda.handler
+      Description: NestJS Lambda function
+      Layers:
+        - !Ref NodeJSDependenciesLayer # 引用Layer
+      Environment:
+        Variables:
+          DATABASE_URL: !Ref DatabaseUrl
+          PORT: !Ref Port
+          NODE_ENV: !Ref Stage
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /{proxy+}
+            Method: ANY
+        RootApiEvent:
+          Type: Api
+          Properties:
+            Path: /
+            Method: ANY
+    Metadata:
+      BuildMethod: nodejs22.x
+      BuildProperties:
+        Minify: false
+        Target: 'es2022'
+        Sourcemap: false
+
+  # API Gateway
+  ApiGateway:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: !Ref Stage
+      Cors:
+        AllowMethods: "'DELETE,GET,HEAD,OPTIONS,PATCH,POST,PUT'"
+        AllowHeaders: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+        AllowOrigin: "'*'"
+
+Outputs:
+  # API Gateway endpoint URL
+  NestJSApi:
+    Description: 'API Gateway endpoint URL for NestJS function'
+    Value: !Sub 'https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/${Stage}/'
+
+  # Lambda function name
+  NestJSFunction:
+    Description: 'NestJS Lambda Function ARN'
+    Value: !GetAtt NestJSFunction.Arn
